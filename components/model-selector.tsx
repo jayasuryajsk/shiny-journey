@@ -21,14 +21,21 @@ export function ModelSelector({
 }: {
   selectedModelId: string;
 } & React.ComponentProps<typeof Button>) {
+  const onlyOneModel = models.length === 1;
   const [open, setOpen] = useState(false);
-  const [optimisticModelId, setOptimisticModelId] =
-    useOptimistic(selectedModelId);
-
+  const [optimisticModelId, setOptimisticModelId] = useOptimistic(selectedModelId);
   const selectedModel = useMemo(
     () => models.find((model) => model.id === optimisticModelId),
     [optimisticModelId],
   );
+
+  if (onlyOneModel) {
+    return (
+      <Button variant="outline" className="md:px-2 md:h-[34px]">
+        {models[0].label}
+      </Button>
+    );
+  }
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>

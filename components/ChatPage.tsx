@@ -1,19 +1,20 @@
 'use client';
 
+import React, { useState } from 'react';
 import type { Attachment, Message } from 'ai';
 import { useChat } from 'ai/react';
-import { useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 
-import { ChatHeader } from '@/components/chat-header';
+import { ChatHeader, ChatMessages, ChatInput, ChatFooter } from './chat/';
 import type { Vote } from '@/lib/db/schema';
 import { fetcher, generateUUID } from '@/lib/utils';
 
 import { Block } from './block';
-import { MultimodalInput } from './multimodal-input';
+import { MultimodalInput } from './chat/multimodal-input';
 import { Messages } from './messages';
 import { VisibilityType } from './visibility-selector';
 import { useBlockSelector } from '@/hooks/use-block';
+import type { ExtendedAttachment } from '@/types/chat';
 
 export function Chat({
   id,
@@ -57,7 +58,7 @@ export function Chat({
     fetcher,
   );
 
-  const [attachments, setAttachments] = useState<Array<Attachment>>([]);
+  const [attachments, setAttachments] = useState<Array<ExtendedAttachment>>([]);
   const isBlockVisible = useBlockSelector((state) => state.isVisible);
 
   return (

@@ -3,15 +3,15 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useWindowSize } from 'usehooks-ts';
+import React, { memo } from 'react';
 
 import { ModelSelector } from '@/components/model-selector';
-import { SidebarToggle } from '@/components/sidebar-toggle';
-import { Button } from '@/components/ui/button';
-import { PlusIcon, VercelIcon } from './icons';
-import { useSidebar } from './ui/sidebar';
-import { memo } from 'react';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
-import { VisibilityType, VisibilitySelector } from './visibility-selector';
+import { SidebarToggle } from '../sidebar/SidebarToggle';
+import { Button } from '../ui/button';
+import { PlusIcon, VercelIcon } from '../icons';
+import { useSidebar } from '../ui/sidebar';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { VisibilityType, VisibilitySelector } from '../visibility-selector';
 
 function PureChatHeader({
   chatId,

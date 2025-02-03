@@ -7,18 +7,18 @@ import { memo, useMemo, useState } from 'react';
 
 import type { Vote } from '@/lib/db/schema';
 
-import { DocumentToolCall, DocumentToolResult } from './document';
-import { PencilEditIcon, SparklesIcon } from './icons';
-import { Markdown } from './markdown';
-import { MessageActions } from './message-actions';
-import { PreviewAttachment } from './preview-attachment';
-import { Weather } from './weather';
+import { DocumentToolCall, DocumentToolResult } from '../document';
+import { PencilEditIcon, SparklesIcon } from '../icons';
+import { Markdown } from '../markdown';
+import { MessageActions } from '../message-actions';
+import { PreviewAttachment } from '../preview-attachment';
+import { Weather } from '../weather';
 import equal from 'fast-deep-equal';
 import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
-import { MessageEditor } from './message-editor';
-import { DocumentPreview } from './document-preview';
+import { Button } from '../ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { MessageEditor } from '../message-editor';
+import { DocumentPreview } from '../document-preview';
 
 const PurePreviewMessage = ({
   chatId,
@@ -228,7 +228,7 @@ export const ThinkingMessage = () => {
 
   return (
     <motion.div
-      className="w-full mx-auto max-w-3xl px-4 group/message "
+      className="w-full mx-auto max-w-3xl px-4 group/message"
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1, transition: { delay: 1 } }}
       data-role={role}
@@ -236,9 +236,7 @@ export const ThinkingMessage = () => {
       <div
         className={cx(
           'flex gap-4 group-data-[role=user]/message:px-3 w-full group-data-[role=user]/message:w-fit group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:py-2 rounded-xl',
-          {
-            'group-data-[role=user]/message:bg-muted': true,
-          },
+          { 'group-data-[role=user]/message:bg-muted': true }
         )}
       >
         <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
@@ -246,11 +244,41 @@ export const ThinkingMessage = () => {
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <div className="flex flex-col gap-4 text-muted-foreground">
-            Thinking...
-          </div>
+          <motion.div
+            className="flex items-center text-muted-foreground"
+            animate="animate"
+            variants={{
+              animate: {
+                transition: {
+                  staggerChildren: 0.3,
+                  repeat: Infinity,
+                  repeatType: 'loop'
+                },
+              },
+            }}
+          >
+            <span>Thinking</span>
+            {[0, 1, 2].map((_, index) => (
+              <motion.span
+                key={index}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{
+                  duration: 1.5,
+                  delay: index * 0.3,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                className="ml-1"
+              >
+                .
+              </motion.span>
+            ))}
+          </motion.div>
         </div>
       </div>
     </motion.div>
   );
 };
+
+export default PreviewMessage;

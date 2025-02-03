@@ -18,7 +18,7 @@ import useSWR, { useSWRConfig } from 'swr';
 import { useDebounceCallback, useWindowSize } from 'usehooks-ts';
 import type { Document, Vote } from '@/lib/db/schema';
 import { fetcher } from '@/lib/utils';
-import { MultimodalInput } from './multimodal-input';
+import { MultimodalInput } from './chat/multimodal-input';
 import { Toolbar } from './toolbar';
 import { VersionFooter } from './version-footer';
 import { BlockActions } from './block-actions';
@@ -30,6 +30,7 @@ import { textBlock } from '@/blocks/text';
 import { imageBlock } from '@/blocks/image';
 import { codeBlock } from '@/blocks/code';
 import equal from 'fast-deep-equal';
+import type { ExtendedAttachment } from '@/types/chat';
 
 export const blockDefinitions = [textBlock, codeBlock, imageBlock] as const;
 export type BlockKind = (typeof blockDefinitions)[number]['kind'];
@@ -56,7 +57,7 @@ function PureBlock({
   handleSubmit,
   isLoading,
   stop,
-  attachments,
+  attachments: extendedAttachments,
   setAttachments,
   append,
   messages,
@@ -70,8 +71,8 @@ function PureBlock({
   setInput: (input: string) => void;
   isLoading: boolean;
   stop: () => void;
-  attachments: Array<Attachment>;
-  setAttachments: Dispatch<SetStateAction<Array<Attachment>>>;
+  attachments: Array<ExtendedAttachment>;
+  setAttachments: Dispatch<SetStateAction<Array<ExtendedAttachment>>>;
   messages: Array<Message>;
   setMessages: Dispatch<SetStateAction<Array<Message>>>;
   votes: Array<Vote> | undefined;
@@ -336,7 +337,7 @@ function PureBlock({
                     handleSubmit={handleSubmit}
                     isLoading={isLoading}
                     stop={stop}
-                    attachments={attachments}
+                    attachments={extendedAttachments}
                     setAttachments={setAttachments}
                     messages={messages}
                     append={append}

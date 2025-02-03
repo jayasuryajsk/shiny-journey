@@ -1,4 +1,4 @@
-import { PreviewMessage } from './message';
+import { PreviewMessage } from './chat/message';
 import { useScrollToBottom } from './use-scroll-to-bottom';
 import { Vote } from '@/lib/db/schema';
 import { ChatRequestOptions, Message } from 'ai';

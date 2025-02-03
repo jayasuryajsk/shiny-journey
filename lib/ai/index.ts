@@ -1,11 +1,15 @@
 import { openai } from '@ai-sdk/openai';
+import { google } from '@ai-sdk/google';
 import { experimental_wrapLanguageModel as wrapLanguageModel } from 'ai';
 
 import { customMiddleware } from './custom-middleware';
 
 export const customModel = (apiIdentifier: string) => {
+  // Use Google provider for Gemini models, OpenAI for others
+  const provider = apiIdentifier.startsWith('gemini-') ? google : openai;
+  
   return wrapLanguageModel({
-    model: openai(apiIdentifier),
+    model: provider(apiIdentifier),
     middleware: customMiddleware,
   });
 };
